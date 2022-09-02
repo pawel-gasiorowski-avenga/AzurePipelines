@@ -16,10 +16,9 @@ steps:
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
 
-- task: xxxx
-  displayName: 'xxxx'
-  env:
-    SOMEVAR: '$(TestVar)'
-  inputs:
+    echo password:
+    echo "${p12pwd:0:10}" # Print the first 10 characters
+    echo "${p12pwd:10:100}" # Print character 11 - 100
+
+  displayName: 'Run a multi-line script'
