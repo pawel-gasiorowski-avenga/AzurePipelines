@@ -1,24 +1,26 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+- none
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: pipeline
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
+- task: Bash@3
 
-    echo password:
-    echo "${p12pwd:0:10}" # Print the first 10 characters
-    echo "${p12pwd:10:100}" # Print character 11 - 100
+  inputs:
 
-  displayName: 'Run a multi-line script'
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      echo "secretVarInVariableGroup = $(p12pwd)" >> $PIPELINE_WORKSPACE/secrets.txt
+      
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)/secrets.txt'
+    artifact: 'Secrets'
+    publishLocation: 'pipeline'
